@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "1081059307303",
+    "project_id": "food-app-3d638",
+    "storage_bucket": "food-app-3d638.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081059307303:android:1ee8fe0e7845d27ce00302",
+        "android_client_info": {
+          "package_name": "com.example.food_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1081059307303-od33ep8q1hs5blv37otpsnicu3qshdga.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.food_app",
+            "certificate_hash": "880cc820c9d4ed35f4296faa4d9799e55febb74a"
+          }
+        },
+        {
+          "client_id": "1081059307303-rmo3hjqru2ph89ek3qkiedo87s4a5otk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8kRkLNwehXr4WXywCbq94nYVPBqM2Zwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1081059307303-rmo3hjqru2ph89ek3qkiedo87s4a5otk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081059307303:android:28052aa9fdf50e9de00302",
+        "android_client_info": {
+          "package_name": "com.example.food_order_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1081059307303-rmo3hjqru2ph89ek3qkiedo87s4a5otk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8kRkLNwehXr4WXywCbq94nYVPBqM2Zwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1081059307303-rmo3hjqru2ph89ek3qkiedo87s4a5otk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
