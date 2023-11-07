@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:food_order_app/config/colors.dart';
+import 'package:food_order_app/providers/product_provider.dart';
 import 'package:food_order_app/screens/home/drawer_side.dart';
 import 'package:food_order_app/screens/product_overview/product_overview.dart';
+import 'package:food_order_app/screens/search/search.dart';
+import 'package:provider/provider.dart';
 import 'single_products.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  ProductProvider? productProvider;
+
   Widget _buildHerbsProduct(context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,33 +37,28 @@ class HomeScreen extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: [
-              SingleProducts(
-                  productImage:
-                      ('https://freepngdesign.com/content/uploads/images/hamburger-8183.png'),
-                  productName: 'Hamburger',
+            children: productProvider!.getHerbsProductDataList
+                .map((herbsProductData) {
+              return SingleProducts(
+                  productImage: herbsProductData.productImage!,
+                  productName: herbsProductData.productName!,
+                  productPrice: herbsProductData.productPrice!,
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ProductOverview(
-                          productName: "Hamburger",
-                          productImage:
-                              "https://freepngdesign.com/content/uploads/images/hamburger-8183.png",
+                          productName: herbsProductData.productName!,
+                          productImage: herbsProductData.productImage!,
+                          productPrice: herbsProductData.productPrice!,
                         ),
                       ),
                     );
-                  }),
-              SingleProducts(
-                  productImage:
-                      ('https://freepngdesign.com/content/uploads/images/hamburger-8183.png'),
-                  productName: 'Hamburger',
-                  onTap: () {}),
-              SingleProducts(
-                  productImage:
-                      ('https://freepngdesign.com/content/uploads/images/hamburger-8183.png'),
-                  productName: 'Hamburger',
-                  onTap: () {}),
-            ],
+                  });
+            }).toList(),
+
+            // children: [
+            //
+            // ],
           ),
         )
       ],
@@ -81,23 +87,7 @@ class HomeScreen extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: [
-              SingleProducts(
-                  productImage:
-                      'https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg',
-                  productName: 'Fresh',
-                  onTap: () {}),
-              SingleProducts(
-                  productImage:
-                      'https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg',
-                  productName: 'Fresh',
-                  onTap: () {}),
-              SingleProducts(
-                  productImage:
-                      'https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg',
-                  productName: 'Fresh',
-                  onTap: () {}),
-            ],
+            children: [],
           ),
         )
       ],
@@ -126,33 +116,24 @@ class HomeScreen extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: [
-              SingleProducts(
-                  productImage:
-                      'https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg',
-                  productName: 'Herbs',
-                  onTap: () {}),
-              SingleProducts(
-                  productImage:
-                      'https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg',
-                  productName: 'Herbs',
-                  onTap: () {}),
-              SingleProducts(
-                  productImage:
-                      'https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg',
-                  productName: 'Herbs',
-                  onTap: () {}),
-            ],
+            children: [],
           ),
         )
       ],
     );
   }
 
-  const HomeScreen({Key? key}) : super(key: key);
+  @override
+  void initState() {
+    ProductProvider productProvider = Provider.of(context, listen: false);
+    productProvider.fetchHerbsProductData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    productProvider = Provider.of(context);
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 219, 218, 218),
       drawer: DrawerSide(),
@@ -162,30 +143,38 @@ class HomeScreen extends StatelessWidget {
           'Home',
           style: TextStyle(color: Colors.black, fontSize: 16),
         ),
-        actions: const [
+        actions: [
           CircleAvatar(
             radius: 12,
-            backgroundColor: Color(0xffd4d181),
-            child: Icon(
-              Icons.search,
-              size: 17,
-              color: Colors.black,
-            ),
+            backgroundColor: primaryColor,
+            child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => Search(),
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Icons.search,
+                  size: 18,
+                  color: Colors.black,
+                )),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: CircleAvatar(
-              backgroundColor: Color(0xffd4d181),
+              backgroundColor: primaryColor,
               radius: 12,
               child: Icon(
                 Icons.shop,
-                size: 17,
+                size: 18,
                 color: Colors.black,
               ),
             ),
           )
         ],
-        backgroundColor: const Color(0xffd6b738),
+        backgroundColor: primaryColor,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),

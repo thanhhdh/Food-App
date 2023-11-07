@@ -4,10 +4,12 @@ import 'package:food_order_app/config/colors.dart';
 class SingleProducts extends StatelessWidget {
   final String productImage;
   final String productName;
+  final int productPrice;
   final VoidCallback onTap;
   SingleProducts(
       {required this.productImage,
       required this.productName,
+      required this.productPrice,
       required this.onTap});
 
   @override
@@ -46,7 +48,7 @@ class SingleProducts extends StatelessWidget {
                           color: textColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '50\$/50 Gram',
+                      '$productPrice\$/50 Gram',
                       style: TextStyle(color: Colors.grey),
                     ),
                     Row(
