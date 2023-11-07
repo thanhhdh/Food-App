@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:food_order_app/screens/home_screen/home_screen.dart';
+import 'package:food_order_app/screens/home/home_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class SignIn extends StatefulWidget {
