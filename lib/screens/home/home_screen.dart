@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.symmetric(
             vertical: 5,
           ),
@@ -27,9 +27,19 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Herbs Seasonings'),
-              Text(
-                'View all',
-                style: TextStyle(color: Colors.grey),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          Search(search: productProvider!.getAllProductSearch),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'View all',
+                  style: TextStyle(color: Colors.grey),
+                ),
               )
             ],
           ),
@@ -55,10 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   });
             }).toList(),
-
-            // children: [
-            //
-            // ],
           ),
         )
       ],
@@ -75,10 +81,18 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Fresh Product'),
-              Text(
-                'View All',
-                style: TextStyle(
-                  color: Colors.grey,
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        Search(search: productProvider!.getAllProductSearch),
+                  ));
+                },
+                child: Text(
+                  'View All',
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
                 ),
               ),
             ],
@@ -87,7 +101,24 @@ class _HomeScreenState extends State<HomeScreen> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: [],
+            children: productProvider!.getFreshProductDataList
+                .map((freshProductData) {
+              return SingleProducts(
+                  productImage: freshProductData.productImage!,
+                  productName: freshProductData.productName!,
+                  productPrice: freshProductData.productPrice!,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ProductOverview(
+                          productName: freshProductData.productName!,
+                          productImage: freshProductData.productImage!,
+                          productPrice: freshProductData.productPrice!,
+                        ),
+                      ),
+                    );
+                  });
+            }).toList(),
           ),
         )
       ],
@@ -98,25 +129,50 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: 5,
-          ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 20),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Fresh Fruits'),
-              Text(
-                'View all',
-                style: TextStyle(color: Colors.grey),
-              )
+              Text('Root Product'),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        Search(search: productProvider!.getAllProductSearch),
+                  ));
+                },
+                child: Text(
+                  'View All',
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: [],
+            children:
+                productProvider!.getRootProductDataList.map((rootProductData) {
+              return SingleProducts(
+                  productImage: rootProductData.productImage!,
+                  productName: rootProductData.productName!,
+                  productPrice: rootProductData.productPrice!,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ProductOverview(
+                          productName: rootProductData.productName!,
+                          productImage: rootProductData.productImage!,
+                          productPrice: rootProductData.productPrice!,
+                        ),
+                      ),
+                    );
+                  });
+            }).toList(),
           ),
         )
       ],
@@ -127,6 +183,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     ProductProvider productProvider = Provider.of(context, listen: false);
     productProvider.fetchHerbsProductData();
+    productProvider.fetchFreshProductData();
+    productProvider.fetchRootProductData();
+
     super.initState();
   }
 
@@ -151,7 +210,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => Search(),
+                      builder: (context) => Search(
+                        search: productProvider!.getAllProductSearch,
+                      ),
                     ),
                   );
                 },
@@ -239,6 +300,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           _buildHerbsProduct(context),
           _buildFreshProduct(context),
+          _buildRootProduct(context),
         ]),
       ),
     );

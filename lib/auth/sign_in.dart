@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:food_order_app/providers/user_provider.dart';
 import 'package:food_order_app/screens/home/home_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -10,6 +12,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  UserProvider? userProvider;
+  bool isSignedIn = false;
   Future<User?> _googleSignUp() async {
     try {
       final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
@@ -25,9 +29,25 @@ class _SignInState extends State<SignIn> {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      final User? user = (await _auth.signInWithCredential(credential)).user;
-      print("Signed In" + user!.displayName!);
-      return user;
+
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+      final User? user = userCredential.user;
+
+      if (user != null) {
+        userProvider!.addUserData(
+          currentUser: user,
+          userEmail: user.email,
+          userImage: user.photoURL,
+          userName: user.displayName,
+        );
+        setState(() {
+          isSignedIn = true; // Đặt biến cờ thành true khi đăng nhập thành công
+        });
+        return user;
+      } else {
+        return null;
+      }
     } catch (e) {
       print(e.toString());
       return null;
@@ -36,6 +56,11 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    userProvider = Provider.of<UserProvider>(context);
+    if (isSignedIn) {
+      // Đã đăng nhập, điều hướng đến HomeScreen
+      return HomeScreen();
+    }
     return Scaffold(
       body: Container(
         height: double.infinity,

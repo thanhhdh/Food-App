@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:food_order_app/config/colors.dart';
+import 'package:food_order_app/models/product_model.dart';
 
 class SingleItem extends StatelessWidget {
+  final String productImage;
+  final String productName;
+  final int productPrice;
   bool isBool = false;
-  SingleItem({required this.isBool});
+  SingleItem({
+    required this.isBool,
+    required this.productImage,
+    required this.productName,
+    required this.productPrice,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +24,7 @@ class SingleItem extends StatelessWidget {
               child: Container(
             height: 100,
             child: Center(
-              child: Image.network(
-                  'https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg'),
+              child: Image.network(productImage),
             ),
           )),
           Expanded(
@@ -31,12 +39,12 @@ class SingleItem extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        "productName",
+                        productName,
                         style: TextStyle(
                             color: textColor, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "\$50",
+                        '$productPrice\$/50 Gram',
                         style: TextStyle(
                           color: Colors.grey,
                         ),
