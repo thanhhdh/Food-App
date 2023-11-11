@@ -50,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: productProvider!.getHerbsProductDataList
                 .map((herbsProductData) {
               return SingleProducts(
+                  productId: herbsProductData.productId!,
                   productImage: herbsProductData.productImage!,
                   productName: herbsProductData.productName!,
                   productPrice: herbsProductData.productPrice!,
@@ -104,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: productProvider!.getFreshProductDataList
                 .map((freshProductData) {
               return SingleProducts(
+                  productId: freshProductData.productId!,
                   productImage: freshProductData.productImage!,
                   productName: freshProductData.productName!,
                   productPrice: freshProductData.productPrice!,
@@ -158,6 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children:
                 productProvider!.getRootProductDataList.map((rootProductData) {
               return SingleProducts(
+                  productId: rootProductData.productId!,
                   productImage: rootProductData.productImage!,
                   productName: rootProductData.productName!,
                   productPrice: rootProductData.productPrice!,

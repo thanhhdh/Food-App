@@ -3,15 +3,19 @@ import 'package:food_order_app/config/colors.dart';
 import 'package:food_order_app/models/product_model.dart';
 
 class SingleItem extends StatelessWidget {
-  final String productImage;
-  final String productName;
-  final int productPrice;
   bool isBool = false;
+  String productImage;
+  String productName;
+  int productPrice;
+  String productId;
+  int productQuantity;
   SingleItem({
     required this.isBool,
     required this.productImage,
     required this.productName,
     required this.productPrice,
+    required this.productId,
+    required this.productQuantity,
   });
 
   @override

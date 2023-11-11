@@ -1,9 +1,12 @@
+import 'dart:html';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order_app/auth/sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:food_order_app/config/colors.dart';
 import 'package:food_order_app/providers/product_provider.dart';
+import 'package:food_order_app/providers/reviewCart_provider.dart';
 import 'package:food_order_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -28,7 +31,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    FirebaseAuth.instance.authStateChanges().listen((user) {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
       setState(() {
         isAuthenticated = user != null;
       });
@@ -44,6 +47,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider<UserProvider>(
           create: (context) => UserProvider(),
+        ),
+        ChangeNotifierProvider<ReviewCartProvider>(
+          create: (context) => ReviewCartProvider(),
         )
       ],
       child: MaterialApp(
@@ -52,7 +58,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: scaffoldBackgroundColor,
         ),
         debugShowCheckedModeBanner: false,
-        home: SignIn(),
+        home: isAuthenticated ? HomeScreen() : SignIn(),
       ),
     );
   }

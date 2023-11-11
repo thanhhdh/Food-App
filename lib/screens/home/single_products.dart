@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:food_order_app/config/colors.dart';
+import 'package:food_order_app/widgets/count.dart';
 
 class SingleProducts extends StatelessWidget {
   final String productImage;
   final String productName;
   final int productPrice;
   final VoidCallback onTap;
-  SingleProducts(
-      {required this.productImage,
-      required this.productName,
-      required this.productPrice,
-      required this.onTap});
+  final String productId;
+  SingleProducts({
+    required this.productId,
+    required this.productImage,
+    required this.productName,
+    required this.productPrice,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,63 +58,39 @@ class SingleProducts extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                            child: Container(
-                          padding: EdgeInsets.only(left: 5),
-                          height: 30,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(8),
+                          child: Container(
+                            padding: EdgeInsets.only(left: 5),
+                            height: 30,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Row(
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                  '50 Gram',
+                                  style: TextStyle(fontSize: 10),
+                                )),
+                                Icon(
+                                  Icons.arrow_drop_down,
+                                  size: 20,
+                                  color: Color(0xffd0b84c),
+                                ),
+                              ],
+                            ),
                           ),
-                          child: const Row(
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                '50 Gram',
-                                style: TextStyle(fontSize: 10),
-                              )),
-                              Icon(
-                                Icons.arrow_drop_down,
-                                size: 20,
-                                color: Color(0xffd0b84c),
-                              ),
-                            ],
-                          ),
-                        )),
+                        ),
                         SizedBox(
                           width: 5,
                         ),
-                        Expanded(
-                            child: Container(
-                          height: 30,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey,
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.remove,
-                                  size: 15,
-                                  color: Color(0xffd0b84c),
-                                ),
-                                Text(
-                                  '1',
-                                  style: TextStyle(
-                                      color: Color(0xffd0b84c),
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Icon(
-                                  Icons.add,
-                                  size: 15,
-                                  color: Color(0xffd0b84c),
-                                )
-                              ]),
-                        )),
+                        Count(
+                          productId: productId,
+                          productImage: productImage,
+                          productName: productName,
+                          productPrice: productPrice,
+                        ),
                       ],
                     )
                   ],
