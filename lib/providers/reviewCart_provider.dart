@@ -25,7 +25,6 @@ class ReviewCartProvider with ChangeNotifier {
   }
 
   List<ReviewCartModel> reviewCartDataList = [];
-
   void getReviewCartData() async {
     List<ReviewCartModel> newList = [];
     QuerySnapshot reviewCartValue = await FirebaseFirestore.instance
@@ -49,5 +48,16 @@ class ReviewCartProvider with ChangeNotifier {
 
   List<ReviewCartModel> get getReviewCartDataList {
     return reviewCartDataList;
+  }
+
+  // ---------- Cart Delele Handle--------
+  reviewCartDataDelete(cardId) {
+    FirebaseFirestore.instance
+        .collection("ReviewCart")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("ReviewCart")
+        .doc(cardId)
+        .delete();
+    notifyListeners();
   }
 }
