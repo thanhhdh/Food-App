@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:food_order_app/models/review_cart.dart';
 
 class ReviewCartProvider with ChangeNotifier {
-  void addReviewCartData(
-      {String? cartId,
-      String? cartImage,
-      String? cartName,
-      int? cartPrice,
-      int? cartQuantity}) async {
+  void addReviewCartData({
+    String? cartId,
+    String? cartImage,
+    String? cartName,
+    int? cartPrice,
+    int? cartQuantity,
+  }) async {
     FirebaseFirestore.instance
         .collection("ReviewCart")
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -21,6 +22,29 @@ class ReviewCartProvider with ChangeNotifier {
       "cartName": cartName,
       "cartPrice": cartPrice,
       "cartQuantity": cartQuantity,
+      "isAdd": true,
+    });
+  }
+
+  void updateReviewCartData({
+    String? cartId,
+    String? cartImage,
+    String? cartName,
+    int? cartPrice,
+    int? cartQuantity,
+  }) async {
+    FirebaseFirestore.instance
+        .collection("ReviewCart")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("ReviewCart")
+        .doc(cartId)
+        .update({
+      "cartId": cartId,
+      "cartImage": cartImage,
+      "cartName": cartName,
+      "cartPrice": cartPrice,
+      "cartQuantity": cartQuantity,
+      "isAdd": true,
     });
   }
 
