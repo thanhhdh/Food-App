@@ -4,6 +4,7 @@ import 'package:food_order_app/models/product_model.dart';
 
 class SingleItem extends StatelessWidget {
   bool isBool = false;
+  bool? wishList = false;
   String productImage;
   String productName;
   int productPrice;
@@ -18,6 +19,7 @@ class SingleItem extends StatelessWidget {
     required this.productId,
     this.productQuantity,
     this.onDelete,
+    this.wishList,
   });
 
   @override
@@ -134,37 +136,40 @@ class SingleItem extends StatelessWidget {
                           SizedBox(
                             height: 5,
                           ),
-                          Container(
-                            height: 25,
-                            width: 70,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.remove,
-                                    color: primaryColor,
-                                    size: 20,
+                          wishList == false
+                              ? Container(
+                                  height: 25,
+                                  width: 70,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(30),
                                   ),
-                                  Text(
-                                    "1",
-                                    style: TextStyle(
-                                      color: primaryColor,
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.remove,
+                                          color: primaryColor,
+                                          size: 20,
+                                        ),
+                                        Text(
+                                          "1",
+                                          style: TextStyle(
+                                            color: primaryColor,
+                                          ),
+                                        ),
+                                        Icon(
+                                          Icons.add,
+                                          color: primaryColor,
+                                          size: 20,
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  Icon(
-                                    Icons.add,
-                                    color: primaryColor,
-                                    size: 20,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
+                                )
+                              : Container(),
                         ],
                       ),
                     ),

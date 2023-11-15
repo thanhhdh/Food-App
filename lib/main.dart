@@ -6,6 +6,7 @@ import 'package:food_order_app/config/colors.dart';
 import 'package:food_order_app/providers/product_provider.dart';
 import 'package:food_order_app/providers/reviewCart_provider.dart';
 import 'package:food_order_app/providers/user_provider.dart';
+import 'package:food_order_app/providers/wish_list_provider.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'screens/home/home_screen.dart';
@@ -48,7 +49,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider<ReviewCartProvider>(
           create: (context) => ReviewCartProvider(),
-        )
+        ),
+        ChangeNotifierProvider<WishListProvider>(
+            create: (context) => WishListProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(

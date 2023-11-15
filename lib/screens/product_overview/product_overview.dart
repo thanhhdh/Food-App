@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order_app/config/colors.dart';
+import 'package:food_order_app/providers/wish_list_provider.dart';
+import 'package:provider/provider.dart';
 
 enum SigninCharacter {
   fill,
@@ -10,10 +15,13 @@ class ProductOverview extends StatefulWidget {
   final String productImage;
   final String productName;
   final int productPrice;
-  ProductOverview(
-      {required this.productName,
-      required this.productImage,
-      required this.productPrice});
+  final String productId;
+  ProductOverview({
+    required this.productId,
+    required this.productName,
+    required this.productImage,
+    required this.productPrice,
+  });
 
   @override
   _ProductOverviewState createState() => _ProductOverviewState();
@@ -28,40 +36,83 @@ class _ProductOverviewState extends State<ProductOverview> {
     Color? color,
     String? title,
     IconData? iconData,
+    Function()? onTap,
   }) {
     return Expanded(
-      child: Container(
-        padding: EdgeInsets.all(20),
-        color: backgroundColor,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              iconData,
-              size: 17,
-              color: iconColor,
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text(title!, style: TextStyle(color: color)),
-          ],
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.all(20),
+          color: backgroundColor,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                iconData,
+                size: 17,
+                color: iconColor,
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(title!, style: TextStyle(color: color)),
+            ],
+          ),
         ),
       ),
     );
   }
 
+  bool wishListBool = false;
+
+  getWishListBool() {
+    FirebaseFirestore.instance
+        .collection("WishList")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("WishList")
+        .doc(widget.productId)
+        .get()
+        .then((value) => {
+              if (this.mounted)
+                {
+                  setState(() {
+                    wishListBool = value.get("WishList");
+                  })
+                }
+            });
+  }
+
   @override
   Widget build(BuildContext context) {
+    WishListProvider wishListProvider = Provider.of(context);
+    getWishListBool();
     return Scaffold(
       bottomNavigationBar: Row(
         children: [
           buttonNavigatorBar(
-              backgroundColor: textColor,
-              color: Colors.white70,
-              iconColor: Colors.grey,
-              title: "Add to Wishlist",
-              iconData: Icons.favorite_outline),
+            backgroundColor: textColor,
+            color: Colors.white70,
+            iconColor: Colors.grey,
+            title: "Add to Wishlist",
+            iconData:
+                wishListBool == false ? Icons.favorite_outline : Icons.favorite,
+            onTap: () {
+              setState(() {
+                wishListBool = !wishListBool;
+              });
+              if (wishListBool == true) {
+                wishListProvider.addWishListData(
+                  wishListId: widget.productId,
+                  wishListImage: widget.productImage,
+                  wishListName: widget.productName,
+                  wishListPrice: widget.productPrice,
+                  wishListQuantity: 2,
+                );
+              } else {
+                wishListProvider.deleteWishList(widget.productId);
+              }
+            },
+          ),
           buttonNavigatorBar(
               backgroundColor: primaryColor,
               color: textColor,

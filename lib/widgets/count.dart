@@ -73,8 +73,7 @@ class _CountState extends State<Count> {
                         isTrue = false;
                       });
                       reviewCartProvider.reviewCartDataDelete(widget.productId);
-                    }
-                    if (count > 1) {
+                    } else if (count > 1) {
                       setState(() {
                         count--;
                       });
