@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:food_order_app/providers/user_provider.dart';
 import 'package:food_order_app/screens/my_profile/my_profile.dart';
 import 'package:food_order_app/screens/review_cart/review_cart.dart';
 import 'package:food_order_app/screens/wishList/wish_list.dart';
 
-class DrawerSide extends StatelessWidget {
+class DrawerSide extends StatefulWidget {
+  UserProvider? userProvider;
+  DrawerSide({this.userProvider});
+  @override
+  State<DrawerSide> createState() => _DrawerSideState();
+}
+
+class _DrawerSideState extends State<DrawerSide> {
   @override
   Widget listTile(
       {IconData? iconData, String? title, required VoidCallback onTap}) {
@@ -16,48 +24,41 @@ class DrawerSide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var userData = widget.userProvider!.currentUserData;
     return Drawer(
       child: Container(
         color: Color(0xffd1ad17),
         child: ListView(
           children: [
             DrawerHeader(
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.white54,
-                    radius: 43,
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Colors.red,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Welcome Guest"),
-                      SizedBox(
-                        height: 7,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.white54,
+                      radius: 43,
+                      child: CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Colors.red,
+                        backgroundImage:
+                            NetworkImage(userData!.userImage ?? ""),
                       ),
-                      Container(
-                        height: 30,
-                        child: OutlinedButton(
-                          onPressed: () {},
-                          child: Text("Login",
-                              style: TextStyle(color: Colors.black)),
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                side: BorderSide(width: 2)),
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Welcome"),
+                        Text(userData.userName!),
+                        Text(userData.userEmail!),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             listTile(
@@ -80,7 +81,9 @@ class DrawerSide extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => MyProfile(),
+                    builder: (context) => MyProfile(
+                      userProvider: widget.userProvider,
+                    ),
                   ),
                 );
               },

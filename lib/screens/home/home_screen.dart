@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_order_app/config/colors.dart';
 import 'package:food_order_app/providers/product_provider.dart';
+import 'package:food_order_app/providers/user_provider.dart';
 import 'package:food_order_app/screens/home/drawer_side.dart';
 import 'package:food_order_app/screens/product_overview/product_overview.dart';
+import 'package:food_order_app/screens/review_cart/review_cart.dart';
 import 'package:food_order_app/screens/search/search.dart';
 import 'package:provider/provider.dart';
 import 'single_products.dart';
@@ -198,10 +200,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     productProvider = Provider.of(context);
-
+    UserProvider userProvider = Provider.of(context);
+    userProvider.getUserData();
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 219, 218, 218),
-      drawer: DrawerSide(),
+      drawer: DrawerSide(
+        userProvider: userProvider,
+      ),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Text(
@@ -230,13 +235,19 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
-            child: CircleAvatar(
-              backgroundColor: primaryColor,
-              radius: 12,
-              child: Icon(
-                Icons.shop,
-                size: 18,
-                color: Colors.black,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ReviewCart()));
+              },
+              child: CircleAvatar(
+                backgroundColor: primaryColor,
+                radius: 12,
+                child: Icon(
+                  Icons.shop,
+                  size: 18,
+                  color: Colors.black,
+                ),
               ),
             ),
           )

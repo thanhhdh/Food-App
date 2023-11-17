@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_order_app/config/colors.dart';
 import 'package:food_order_app/models/product_model.dart';
+import 'package:food_order_app/widgets/count.dart';
 
 class SingleItem extends StatelessWidget {
   bool isBool = false;
@@ -60,30 +61,62 @@ class SingleItem extends StatelessWidget {
                     ],
                   ),
                   isBool == false
-                      ? Container(
-                          margin: EdgeInsets.only(right: 15),
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          height: 35,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Row(children: [
-                            Expanded(
-                              child: Text(
-                                "50 Gram",
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 14),
-                              ),
+                      ? GestureDetector(
+                          onTap: () {
+                            showModalBottomSheet<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ListTile(
+                                      title: new Text('50 Gram'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    ListTile(
+                                      title: new Text('500 Gram'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    ListTile(
+                                      title: new Text('1 Kg'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 15),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            height: 35,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(30),
                             ),
-                            Center(
-                              child: Icon(
-                                Icons.arrow_drop_down,
-                                size: 20,
-                                color: primaryColor,
+                            child: Row(children: [
+                              Expanded(
+                                child: Text(
+                                  "50 Gram",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 14),
+                                ),
                               ),
-                            )
-                          ]),
+                              Center(
+                                child: Icon(
+                                  Icons.arrow_drop_down,
+                                  size: 20,
+                                  color: primaryColor,
+                                ),
+                              )
+                            ]),
+                          ),
                         )
                       : Text("50 Gram")
                 ],
@@ -97,29 +130,11 @@ class SingleItem extends StatelessWidget {
                   ? EdgeInsets.symmetric(horizontal: 15, vertical: 32)
                   : EdgeInsets.only(left: 15, right: 15),
               child: isBool == false
-                  ? Container(
-                      height: 25,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.add,
-                              color: primaryColor,
-                              size: 20,
-                            ),
-                            Text(
-                              "Add",
-                              style: TextStyle(color: primaryColor),
-                            ),
-                          ],
-                        ),
-                      ),
+                  ? Count(
+                      productId: productId,
+                      productImage: productImage,
+                      productName: productName,
+                      productPrice: productPrice,
                     )
                   : Padding(
                       padding: const EdgeInsets.only(top: 8),

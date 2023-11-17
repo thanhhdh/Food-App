@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_order_app/models/user_model.dart';
 
 class UserProvider with ChangeNotifier {
   void addUserData({
@@ -18,5 +19,28 @@ class UserProvider with ChangeNotifier {
       'userImage': userImage,
       'userUid': currentUser.uid,
     });
+  }
+
+  UserModel? currentData;
+  void getUserData() async {
+    UserModel? userModel;
+    var value = await FirebaseFirestore.instance
+        .collection("usersData")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    if (value.exists) {
+      userModel = UserModel(
+        userEmail: value.get("userEmail"),
+        userImage: value.get("userImage"),
+        userName: value.get("userName"),
+        userUid: value.get("userUid"),
+      );
+      currentData = userModel;
+      notifyListeners();
+    }
+  }
+
+  UserModel? get currentUserData {
+    return currentData;
   }
 }

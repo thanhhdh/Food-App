@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order_app/config/colors.dart';
 import 'package:food_order_app/providers/wish_list_provider.dart';
+import 'package:food_order_app/screens/review_cart/review_cart.dart';
+import 'package:food_order_app/widgets/count.dart';
 import 'package:provider/provider.dart';
 
 enum SigninCharacter {
@@ -65,21 +67,24 @@ class _ProductOverviewState extends State<ProductOverview> {
 
   bool wishListBool = false;
 
-  getWishListBool() {
-    FirebaseFirestore.instance
-        .collection("WishList")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("WishList")
-        .doc(widget.productId)
-        .get()
-        .then((value) => {
-              if (this.mounted)
-                {
-                  setState(() {
-                    wishListBool = value.get("WishList");
-                  })
-                }
-            });
+  void getWishListBool() async {
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection("WishList")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection("WishList")
+          .doc(widget.productId)
+          .get();
+
+      if (this.mounted) {
+        setState(() {
+          wishListBool = snapshot.get("WishList");
+        });
+      }
+    } catch (e) {
+      // Handle any potential errors here
+      print("Error: $e");
+    }
   }
 
   @override
@@ -118,7 +123,11 @@ class _ProductOverviewState extends State<ProductOverview> {
               color: textColor,
               iconColor: Colors.white70,
               title: "Go To Cart",
-              iconData: Icons.shopping_cart_outlined),
+              iconData: Icons.shopping_cart_outlined,
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ReviewCart()));
+              }),
         ],
       ),
       appBar: AppBar(
@@ -182,30 +191,36 @@ class _ProductOverviewState extends State<ProductOverview> {
                       ],
                     ),
                     Text("\$${widget.productPrice}"),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.add,
-                            size: 18,
-                            color: primaryColor,
-                          ),
-                          Text(
-                            'ADD',
-                            style: TextStyle(color: primaryColor),
-                          )
-                        ],
-                      ),
+                    Count(
+                      productId: widget.productId,
+                      productImage: widget.productImage,
+                      productName: widget.productName,
+                      productPrice: widget.productPrice,
                     ),
+                    // Container(
+                    //   padding: EdgeInsets.symmetric(
+                    //     horizontal: 30,
+                    //     vertical: 10,
+                    //   ),
+                    //   decoration: BoxDecoration(
+                    //     border: Border.all(color: Colors.grey),
+                    //     borderRadius: BorderRadius.circular(30),
+                    //   ),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       Icon(
+                    //         Icons.add,
+                    //         size: 18,
+                    //         color: primaryColor,
+                    //       ),
+                    //       Text(
+                    //         'ADD',
+                    //         style: TextStyle(color: primaryColor),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               )

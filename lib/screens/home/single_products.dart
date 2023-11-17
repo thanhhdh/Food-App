@@ -58,27 +58,59 @@ class SingleProducts extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: Container(
-                            padding: EdgeInsets.only(left: 5),
-                            height: 30,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Row(
-                              children: [
-                                Expanded(
-                                    child: Text(
-                                  '50 Gram',
-                                  style: TextStyle(fontSize: 10),
-                                )),
-                                Icon(
-                                  Icons.arrow_drop_down,
-                                  size: 20,
-                                  color: Color(0xffd0b84c),
-                                ),
-                              ],
+                          child: InkWell(
+                            onTap: () {
+                              showModalBottomSheet<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ListTile(
+                                        title: new Text('50 Gram'),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: new Text('500 Gram'),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: new Text('1 Kg'),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(left: 5),
+                              height: 30,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Row(
+                                children: [
+                                  Expanded(
+                                      child: Text(
+                                    '50 Gram',
+                                    style: TextStyle(fontSize: 10),
+                                  )),
+                                  Icon(
+                                    Icons.arrow_drop_down,
+                                    size: 20,
+                                    color: Color(0xffd0b84c),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
