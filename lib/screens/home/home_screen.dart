@@ -56,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   productImage: herbsProductData.productImage!,
                   productName: herbsProductData.productName!,
                   productPrice: herbsProductData.productPrice!,
+                  productUnit: herbsProductData,
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -112,6 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   productImage: freshProductData.productImage!,
                   productName: freshProductData.productName!,
                   productPrice: freshProductData.productPrice!,
+                  productUnit: freshProductData,
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -168,6 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   productImage: rootProductData.productImage!,
                   productName: rootProductData.productName!,
                   productPrice: rootProductData.productPrice!,
+                  productUnit: rootProductData,
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
